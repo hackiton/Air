@@ -26,7 +26,12 @@ export const generateResponse = async (
   settings: AppSettings
 ): Promise<{ text: string; groundingSources: { title: string; uri: string }[]; generatedImages: string[] }> => {
   
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    throw new Error("API Key not found. Please set the API_KEY environment variable.");
+  }
+
+  const ai = new GoogleGenAI({ apiKey: apiKey });
   
   // Construct parts
   const parts: Part[] = [];
